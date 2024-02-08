@@ -1,4 +1,4 @@
-<!<!DOCTYPE html>
+<!DOCTYPE1 html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -34,12 +34,17 @@
             margin-bottom: 5px;
             color: #555;
         }
-        input {
+        input, select {
             width: calc(100% - 10px);
             padding: 10px;
             margin-bottom: 15px;
             border: 1px solid #ccc;
             border-radius: 4px;
+        }
+        .producto {
+            border-top: 1px solid #ccc;
+            padding-top: 15px;
+            margin-top: 15px;
         }
         #cotizacion {
             display: inline-block;
@@ -62,9 +67,26 @@
         button:hover {
             background-color: #0056b3;
         }
-        #resultado, #mensaje {
+        #resultado {
             margin-top: 20px;
             text-align: left;
+            border-top: 1px solid #ccc;
+            padding-top: 20px;
+            background-color: #f3f3f3;
+            border-radius: 4px;
+        }
+        #resultado div {
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+        #resultado div:last-child {
+            border-bottom: none;
+        }
+        #resultado strong {
+            width: 150px;
+            display: inline-block;
+            font-weight: normal;
+            color: #555;
         }
     </style>
 </head>
@@ -78,11 +100,16 @@
         <label for="nit">NIT:</label>
         <input type="text" id="nit" placeholder="Ingrese el NIT de la empresa">
         
-        <label for="nombreProducto">Nombre del producto:</label>
-        <input type="text" id="nombreProducto" placeholder="Ingrese el nombre del producto">
-        
-        <label for="valor">Valor unitario del producto:</label>
-        <input type="number" id="valor" placeholder="Ingrese el valor unitario del producto">
+        <div id="productos">
+            <label for="nombreProducto">Nombre del producto:</label>
+            <input type="text" id="nombreProducto" placeholder="Ingrese el nombre del producto">
+            
+            <label for="valor">Valor unitario del producto:</label>
+            <input type="number" id="valor" placeholder="Ingrese el valor unitario del producto">
+
+            <label for="cantidad">Cantidad:</label>
+            <input type="number" id="cantidad" placeholder="Ingrese la cantidad del producto" value="1">
+        </div>
         
         <label for="cotizacion">Número de cotización:</label>
         <span id="cotizacion">01</span>
@@ -101,28 +128,32 @@
             var nit = document.getElementById('nit').value;
             var nombreProducto = document.getElementById('nombreProducto').value;
             var valor = parseFloat(document.getElementById('valor').value);
-
+            var cantidad = parseInt(document.getElementById('cantidad').value);
             var iva = valor * 0.19; // 19% de IVA
-            var total = valor + iva;
-            
-            var resultado = "<strong>Nombre de la empresa:</strong> " + nombreEmpresa + "<br>";
-            resultado += "<strong>NIT:</strong> " + nit + "<br>";
-            resultado += "<strong>Nombre del producto:</strong> " + nombreProducto + "<br>";
-            resultado += "<strong>Valor unitario del producto:</strong> $" + valor.toFixed(2) + "<br>";
-            resultado += "<strong>IVA (19%):</strong> $" + iva.toFixed(2) + "<br>";
-            resultado += "<strong>Total a pagar:</strong> $" + total.toFixed(2) + "<br>";
-            
+            var total = (valor * cantidad) + iva;
+
+            var resultado = "<div><strong>Nombre de la empresa:</strong> " + nombreEmpresa + "</div>";
+            resultado += "<div><strong>NIT:</strong> " + nit + "</div>";
+            resultado += "<div><strong>Nombre del producto:</strong> " + nombreProducto + "</div>";
+            resultado += "<div><strong>Valor unitario del producto:</strong> $" + numberWithCommas(valor.toFixed(0)) + "</div>";
+            resultado += "<div><strong>Cantidad:</strong> " + cantidad + "</div>";
+            resultado += "<div><strong>IVA (19%):</strong> $" + numberWithCommas(iva.toFixed(0)) + "</div>";
+            resultado += "<div><strong>Total a pagar:</strong> $" + numberWithCommas(total.toFixed(0)) + "</div>";
+
             document.getElementById('resultado').innerHTML = resultado;
-            
             document.getElementById('cotizacion').innerText = formatNumeroCotizacion(contadorCotizacion);
             contadorCotizacion++;
-            
             document.getElementById('mensaje').innerHTML = "La cotización ha sido generada correctamente.";
         }
 
         function formatNumeroCotizacion(numero) {
             var str = numero.toString();
             return str.padStart(2, '0');
+        }
+
+        // Función para agregar separadores de miles con puntos
+        function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
         }
     </script>
 </body>
