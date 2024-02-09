@@ -83,8 +83,8 @@
     <h1>GasoProLatam</h1>
     <table>
         <tr>
-            <th>Número de Cotización:</th>
-            <td><span id="numeroCotizacion"></span></td>
+            <th>Nombre del Negocio:</th>
+            <td><input type="text" id="nombreNegocio" placeholder="Nombre de tu negocio"></td>
         </tr>
         <tr>
             <th>Fecha:</th>
@@ -132,8 +132,6 @@
 </div>
 
 <script>
-    var numeroCotizacion = 1; // Inicializar el número de cotización
-
     function agregarFila() {
         var tabla = document.getElementById('elementos');
         var fila = tabla.insertRow(-1);
@@ -143,8 +141,8 @@
         var total = fila.insertCell(3);
 
         tipoElemento.innerHTML = '<input type="text" class="tipo_elemento" placeholder="Tipo">';
-        cantidad.innerHTML = '<input type="text" class="cantidad" placeholder="1">';
-        valorUnitario.innerHTML = '<input type="text" class="valor_unitario" placeholder="$100">';
+        cantidad.innerHTML = '<input type="text" class="cantidad" placeholder="1"></td>';
+        valorUnitario.innerHTML = '<input type="text" class="valor_unitario" placeholder="$100"></td>';
         total.innerHTML = '<input type="text" class="total" disabled>';
     }
 
@@ -169,11 +167,11 @@
         var telefono = document.getElementById('telefono').value;
         var direccion = document.getElementById('direccion').value;
         var departamento = document.getElementById('departamento').value;
+        var nombreNegocio = document.getElementById('nombreNegocio').value;
 
         var resultText = '<div class="result-text">' +
-                            '<p style="font-weight: bold;">Cotización - GasoProLatam</p>' +
+                            '<p style="font-weight: bold;">Cotización - ' + nombreNegocio + '</p>' +
                             '<hr>' +
-                            '<p><strong>Número de Cotización:</strong> ' + numeroCotizacion++ + '</p>' +
                             '<p><strong>Fecha:</strong> ' + fecha + '</p>' +
                             '<p><strong>NIT:</strong> ' + nit + '</p>' +
                             '<p><strong>Teléfono:</strong> ' + telefono + '</p>' +
